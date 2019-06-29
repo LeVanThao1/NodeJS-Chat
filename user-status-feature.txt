@@ -1,0 +1,32 @@
+Online status:
+1. 
+let trackingStatus: {
+	userId: 1
+}
+class SocketInitialization {
+	initConnect(io, socket) {
+		socket.on('connect', function(socket) {
+			const userId = socket.user.id;
+			updateUserOnlineStatus(io, userId);
+		});
+
+		socket.on('disconnect', function(socket) {
+			const userId = socket.user.id;
+			updateUserOnlineStatus(io, userId);
+		});
+	}
+}
+
+function updateUserOnlineStatus(io, userId) {
+	const currentOnline = numClientsInRoom(io, '/', userId);
+	if (!currentOnline) {
+		// query to set false online
+	} else {
+		// query to set true online
+	}
+}
+
+function numClientsInRoom(io, namespace, room) {
+  var clients = io.nsps[namespace].adapter.rooms[room];
+  return Object.keys(clients).length; //Number of online user in room
+}

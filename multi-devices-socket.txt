@@ -1,0 +1,64 @@
+1. Multi devices
+- 1 account, multi tab browser, laptop, mobile, desktop ==> online
+event.on('connect', function(socket) {
+	const id = socket.id;
+	const user = socket.user;
+	const userId = socket.user._id; // B
+	// socket.to(id).emit('messages');
+	// socketIds: [socketId1, 2, 3, 4, .....]
+
+});
+
+event.on('disconnect', function(socket) {
+	const socketId = socket.id;
+	const userId = socket.user.id;
+});
+
+// Rate limit:
+upload file:
+1p: 10 photos
+
+--- Ram
+userId: {
+	time,
+	numOfUpload
+}
+-- Redis
+
+
+2. Multi devices
+In memory Database: RAM - Redis
+In disk Database: Mongodb
+----------
+2.1. 
+let storingUserSocketIds;
+
+{
+	userId1: [1, 2, 3, 4, 5]
+}
+
+event.on('connect', function(socket) {
+	const id = socket.id;
+	const user = socket.user;
+	const userId = socket.user._id; // B
+	// socket.to(id).emit('messages');
+	// socketIds: [socketId1, 2, 3, 4, .....]
+	if (!storingUserSocketIds[userId]) {
+		storingUserSocketIds[userId] = [];
+	}
+	storingUserSocketIds[userId].push(socket.id);
+});
+
+2.2.
+Sử dụng socket.join('roomName');
+
+event.on('connect', function(socket) {
+	const id = socket.id;
+	const user = socket.user;
+	const userId = socket.user._id; // B
+	socket.join(userId);
+});
+
+socket.broadcast.to(userId).emit('messages');
+
+

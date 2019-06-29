@@ -1,0 +1,36 @@
+1. Caching
+Mem - cache
+
+- Check if existed in mem-cache
+- if (true) => get from RAM and return.
+- if (false) => Query from Db -> push into RAM(exp time) -> return
+
+2. Logic cache
+
+caching-middleware.js
+const cachingUrlDic = [
+	'/photos',
+	'/users'
+]
+cache(req, res, next) {
+	const reqOrinalURL = req.originalurl;
+	if (cachingUrlDic.includes) {
+	// Check if in redis
+		// return
+		// call to controller.
+		// set key - data in controller.
+		// 
+		req.isCaching = true;
+	}
+}
+
+app.use(function(req, res,next) {
+    res.on('finish', function() {
+    	const isCaching = req.isCaching;
+
+        console.log('the response has been sent');
+    });
+    next();
+});
+
+https://www.npmjs.com/package/express-redis-cache
